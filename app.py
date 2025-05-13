@@ -4,6 +4,14 @@ import joblib
 import pandas as pd
 import keras
 from keras.models import load_model
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import MinMaxScaler
+import requests
+from io import StringIO
+from datetime import datetime
+
 
 # Define y registra RMSE
 @keras.saving.register_keras_serializable(name="RMSE")
@@ -17,6 +25,8 @@ model = load_model(
 )
 scaler = joblib.load("my_scaler.pkl")  # Update path
 
+# Titulo de pestaña
+st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="solar_power")
 # Interfaz
 st.title("🔮 Predictor de Radiación Solar")
 horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
