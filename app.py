@@ -26,7 +26,7 @@ model = load_model(
 scaler = joblib.load("my_scaler.pkl")  # Update path
 
 # Titulo de pestaña
-st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="solar_power")
+st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
 # Interfaz
 st.title("🔮 Predictor de Radiación Solar")
 horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
