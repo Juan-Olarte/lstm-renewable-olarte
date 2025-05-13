@@ -1,10 +1,19 @@
 import streamlit as st
 import numpy as np
 import joblib
-from tensorflow.keras.models import load_model
+import keras
+from keras.models import load_model
 
-# Cargar recursos
-model = load_model("modeloLSTM.keras")
+# Define y registra RMSE
+@keras.saving.register_keras_serializable(name="RMSE")
+def RMSE(y_true, y_pred):
+    return keras.ops.sqrt(keras.ops.mean(keras.ops.square(y_pred - y_true), axis=-1))
+
+# Carga el modelo con la función personalizada
+model = load_model(
+    "modeloLSTM.keras",
+    custom_objects={"RMSE": RMSE}
+)
 scaler = joblib.load("my_scaler.pkl")
 
 # Interfaz
