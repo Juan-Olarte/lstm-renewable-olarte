@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 import joblib
-import pandas as pd  # Import pandas for data handling
+import pandas as pd
 import keras
 from keras.models import load_model
 
@@ -19,7 +19,7 @@ scaler = joblib.load("my_scaler.pkl")  # Update path
 
 # Interfaz
 st.title("🔮 Predictor de Radiación Solar")
-horas = st.slider("Selecciona horas a predecir:", 1, 48, 24)
+horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
 # Cargar los datos históricos desde el archivo CSV
 df = pd.read_csv("renewable_power_dataset_preprocesado.csv")  # Update path
