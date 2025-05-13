@@ -12,17 +12,17 @@ def RMSE(y_true, y_pred):
 
 # Carga el modelo con la función personalizada
 model = load_model(
-    "/content/drive/MyDrive/Forecasting_Renewables/modelos/modeloLSTM.keras",  # Update path
+    "modeloLSTM.keras",  # Update path
     custom_objects={"RMSE": RMSE}
 )
-scaler = joblib.load("/content/drive/MyDrive/Forecasting_Renewables/scalers/my_scaler.pkl")  # Update path
+scaler = joblib.load("my_scaler.pkl")  # Update path
 
 # Interfaz
 st.title("🔮 Predictor de Radiación Solar")
 horas = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
 # Cargar los datos históricos desde el archivo CSV
-df = pd.read_csv("/content/drive/MyDrive/Forecasting_Renewables/datasets/renewable_power_dataset_preprocesado.csv")  # Update path
+df = pd.read_csv("renewable_power_dataset_preprocesado.csv")  # Update path
 ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)  # Get last 24 hours
 
 if st.button("Generar predicción"):
