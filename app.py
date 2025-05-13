@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import joblib
+import pandas as pd  # Import pandas for data handling
 import keras
 from keras.models import load_model
 
@@ -11,22 +12,23 @@ def RMSE(y_true, y_pred):
 
 # Carga el modelo con la función personalizada
 model = load_model(
-    "modeloLSTM.keras",
+    "/content/drive/MyDrive/Forecasting_Renewables/modelos/modeloLSTM.keras",  # Update path
     custom_objects={"RMSE": RMSE}
 )
-scaler = joblib.load("my_scaler.pkl")
+scaler = joblib.load("/content/drive/MyDrive/Forecasting_Renewables/scalers/my_scaler.pkl")  # Update path
 
 # Interfaz
-st.title("🔮 Predictor de Series Temporales")
+st.title("🔮 Predictor de Radiación Solar")
 horas = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
-# Mock data (¡Reemplaza con tus datos reales!)
-ultimos_datos = np.random.rand(24).reshape(-1, 1)  # 24 horas históricas
+# Cargar los datos históricos desde el archivo CSV
+df = pd.read_csv("/content/drive/MyDrive/Forecasting_Renewables/datasets/renewable_power_dataset_preprocesado.csv")  # Update path
+ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)  # Get last 24 hours
 
 if st.button("Generar predicción"):
     # Preprocesamiento
     datos_escalados = scaler.transform(ultimos_datos)
-    entrada = datos_escalados.reshape(1, 24, 1)
+    entrada = datos_escalados.reshape(1, 24, 1)  # Reshape for LSTM input
     
     # Predicción
     prediccion = model.predict(entrada)
