@@ -28,7 +28,7 @@ ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)  # Get la
 if st.button("Generar predicción"):
     # Preprocesamiento
     datos_escalados = scaler.transform(ultimos_datos)
-    entrada = datos_escalados.reshape(1, 24, 1)  # Reshape for LSTM input
+    entrada = datos_escalados.reshape(1, 24, horas)  # Reshape for LSTM input
     
     # Predicción
     prediccion = model.predict(entrada)
