@@ -28,14 +28,24 @@ ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)  # Get la
 if st.button("Generar predicción"):
     # Preprocesamiento
     datos_escalados = scaler.transform(ultimos_datos)
-    entrada = datos_escalados.reshape(1, 24, horas)  # Reshape for LSTM input
-    
-    # Predicción
-    prediccion = model.predict(entrada)
-    prediccion_descalada = scaler.inverse_transform(prediccion)
-    
+    entrada = datos_escalados.reshape(1, 24, 1)  # Reshape for LSTM input
+
+    # Predicción para múltiples horas
+    predicciones = []
+    for _ in range(horas_a_predecir):
+        prediccion = model.predict(entrada)
+        predicciones.append(prediccion[0, 0])  # Get the prediction value
+
+        # Update input for next prediction (shift and add the new prediction)
+        datos_escalados = np.roll(datos_escalados, -1)  # Shift data one step back
+        datos_escalados[-1, 0] = prediccion[0, 0]  # Add the new prediction
+        entrada = datos_escalados.reshape(1, 24, 1)
+
+    # Desescalar las predicciones
+    predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1))
+
     # Resultado
     st.line_chart({
         "Histórico": ultimos_datos.flatten(),
-        "Predicción": prediccion_descalada.flatten()
+        "Predicción": predicciones_descaladas.flatten()
     })
