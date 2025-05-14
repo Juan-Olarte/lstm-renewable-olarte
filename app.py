@@ -29,6 +29,9 @@ scaler = joblib.load("my_scaler.pkl")  # Update path
 st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
 # Interfaz
 st.title("🔮 Predictor de Radiación Solar")
+# You can also use "with" notation:
+with tab1:
+    st.radio("Select one:", [1, 2])
 horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
 # Cargar los datos históricos desde el archivo CSV
