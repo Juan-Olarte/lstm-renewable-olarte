@@ -191,6 +191,17 @@ with tab1:
             else:
                 st.error("Error: las dimensiones de radiación y energía no coinciden.")
 
+            st.subheader("¿CUÁNTO DINERO AHORRARÍA UNA VIVIENDA?")
+            preciokwh = ['934','919','943','799','808']
+            ahorrokwh = preciokwh * 0.001 * energia_wh
+            ahorro = {
+                'Ciudad': ['Cúcuta','Medellín','Bucaramanga','Cali','Bogotá']
+                'Preio KWh': ahorrokwh
+            }
+            df_ahorro = pd.DataFrame(ahorro)
+            st.table(df_ahorro)
+
+
     else:
         st.warning("🔍 Esperando que se carguen datos válidos con al menos 24 valores.")
 
