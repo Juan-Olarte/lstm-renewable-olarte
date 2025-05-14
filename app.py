@@ -160,8 +160,19 @@ with tab1:
                 "Tipo": ["Histórico"] * 24 + ["Predicción"] * horas_a_predecir
             }, index=index)
 
+            # Convertir a energía generada (Wh)
+            eficiencia = 0.27  # 27%
+            area_m2 = 1  # 1 m²
+            energia_wh = predicciones_descaladas * 1000 * eficiencia * area_m2
+
             # Mostrar gráfica
             st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
+             # Graficar resultados
+            st.subheader("Radiación solar (kWh/m²) y Energía generada (Wh)")
+            st.line_chart(pd.DataFrame({
+                "Radiación predicha (kWh/m²)": predicciones_descaladas,
+                "Energía generada (Wh)": energia_wh
+            }))
     else:
         st.warning("🔍 Esperando que se carguen datos válidos con al menos 24 valores.")
 
