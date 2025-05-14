@@ -200,7 +200,7 @@ with tab1:
             ahorro = {
                 'Ciudad': ['Cúcuta','Medellín','Bucaramanga','Cali','Bogotá'],
                 'Precio KWh': preciokwh,
-                'Dinero ahorrado:': ahorrokwh
+                'Dinero ahorrado por panel solar:': ahorrokwh
             }
             df_ahorro = pd.DataFrame(ahorro)
             st.table(df_ahorro)
