@@ -255,7 +255,7 @@ with tab2:
 
 with tab3:
     expand = st.expander("Como agregar localizaciones personalizadas", icon=":material/info:")
-    expand2 = st.expander("Como agregar localizaciones personalizadas", icon=":material/info:")
+    #expand2 = st.expander("Como agregar localizaciones personalizadas", icon=":material/info:")
 
     # You can also use "with" notation:
     with expand:
@@ -300,9 +300,3 @@ with tab3:
             "##### 7. Subimos los datos descargados la página web usando el botón 'Broswe Files'"
         )
         st.image("imagenes/browse.png")
-
-    with expand2:
-
-
-
-
