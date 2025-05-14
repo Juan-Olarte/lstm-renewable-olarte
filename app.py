@@ -30,8 +30,15 @@ st.set_page_config(page_title='Predicción Energías Renovables', layout='wide',
 # Interfaz
 st.title("🔮 Predictor de Radiación Solar")
 # You can also use "with" notation:
-with st.tab1:
+# Insert containers separated into tabs:
+tab1, tab2 = st.tabs(["Tab 1", "Tab2"])
+tab1.write("this is tab 1")
+tab2.write("this is tab 2")
+
+# You can also use "with" notation:
+with tab1:
     st.radio("Select one:", [1, 2])
+
 horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
 # Cargar los datos históricos desde el archivo CSV
