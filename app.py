@@ -226,7 +226,7 @@ with tab3:
     st.markdown("#### Primero debemos dirigirnos al siguiente enlace")
     st.markdown("https://power.larc.nasa.gov/data-access-viewer/")
     st.markdown(
-        "#### NASA POWER es una base de datos de variables climáticas gestionada por la NASA."
+        "NASA POWER es una base de datos de variables climáticas gestionada por la NASA."
         " De ella podemos obtener los datos necesarios para realizar predicciones al rededor" \
         " del mundo."
     )
