@@ -245,6 +245,11 @@ with tab3:
         st.markdown(
             "##### 2. Seleccionamos datos de energías renovables en 'community'"
         )
+        st.image("imagenes/community.jpeg")
+        st.markdown(
+            "##### 3. Seleccionamos mediciones por hora, 'hourly'"
+        )
+        st.image("imagenes/tiempo.jpeg")
         
 
 
