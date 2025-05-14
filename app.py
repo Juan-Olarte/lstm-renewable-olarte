@@ -42,7 +42,7 @@ tab3.write("this is tab 3")
 with tab1:
     st.subheader("Seleccione la localización que desea usar para la predicción")
     #Opciones predefinidas
-    location = st.selectbox("Localizaciones predefinidas"), [
+    location = st.selectbox("Localizaciones predfinidas"), [
         "Seleccionar...",
         "Barrio El Contento - Cúcuta",
         "Barrio Aeropuerto - Cúcuta",
