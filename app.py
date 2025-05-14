@@ -237,7 +237,9 @@ with tab3:
     st.markdown(
         "##### 1. Nos ubicamos en la parte izquierda de la pantalla y seleccionamos 'single point'"
     )
-    st.image("imagenes/selector.jpeg", width=500)
+    st.html(
+        "<div style='text-align: center;'><img src='{imagenes/selector.jpeg}' width='500'</div>"
+    )
 
 
 
