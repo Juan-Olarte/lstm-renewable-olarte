@@ -28,7 +28,7 @@ scaler = joblib.load("my_scaler.pkl")  # Update path
 # Titulo de pestaña
 st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
 # Interfaz
-st.header("🔮 Predictor de Radiación Solar")
+st.header("MODELO DE INTELIGENCIA ARTIFICIAL PARA PREDICCIÓN DE ENERGÍAS RENOVABLES")
 # You can also use "with" notation:
 # Insert containers separated into tabs:
 tab1, tab2, tab3 = st.tabs(["PREDICCIONES", "SOBRE NOSOTROS", "AYUDA"])
@@ -40,7 +40,39 @@ tab3.write("this is tab 3")
 #  PESTAÑA 1 -- PREDICCIONES
 #--------------------------------------------------------
 with tab1:
-    st.radio("Select one:", [1, 2])
+    st.subheader("Seleccione la localización que desea usar para la predicción")
+    #Opciones predefinidas
+    location = st.selectbox("Localizaciones predefinidas"), [
+        "Seleccionar...",
+        "Barrio El Contento - Cúcuta",
+        "Barrio Aeropuerto - Cúcuta",
+        "Barrio Colsag - Cúcuta",
+        "Patios Centro",
+        "El Zulia",
+        "Ureña",
+        "San Antonio del Táchira"
+    ]
+    
+    #urls
+    urls = {
+        "Barrio El Contento - Cúcuta":"https://www.dropbox.com/scl/fi/pm33sppurztz0mmh6myjb/EL_CONTENTO_DATASET.csv?rlkey=mz4oo8y9v6svcvps2qo8yjjms&st=f522sgts&dl=0"
+        "Barrio Aeropuerto - Cúcuta":"https://www.dropbox.com/scl/fi/n8d5w7kydi27548yvgpbw/EL_AEROPUERTO_DATASET.csv?rlkey=1uxesv5e36i7g1im5w6vo2fzr&st=bvflxtdx&dl=0"
+        "Barrio Colsag - Cúcuta":"https://www.dropbox.com/scl/fi/2fsyd1fu8dnhehuknqmpd/COLSAG_DATASET.csv?rlkey=y8es8gtzlghw20zjqvxv6afzy&st=1apoakdo&dl=0"
+        "Patios Centro":"https://www.dropbox.com/scl/fi/j46wffrtcvsuscuvqlcui/PATIOS_CENTRO_DATASET.csv?rlkey=jvm3rd8kjlzjpx8cl8welpfiz&st=zqh3xh47&dl=0"
+        "El Zulia":"https://www.dropbox.com/scl/fi/7oafoa9gr8ckwlreh2sif/EL_ZULIA_DATASET.csv?rlkey=aq0d0y3hnn849jcypt664ycvz&st=xooctz44&dl=0"
+        "Ureña":"https://www.dropbox.com/scl/fi/cav3zu16b8oaxlykvnslq/URENA_DATASET.csv?rlkey=jnl0frk7bfbpy60ebk8na61hy&st=0bjr7bwt&dl=0"
+        "San Antonio del Táchira":"https://www.dropbox.com/scl/fi/43j8thmkin003rhd63mj8/SAN_ANTONIO_DATASET.csv?rlkey=patwxwmb7dzkz7xv2hli6vdej&st=nsr2f61j&dl=0"
+    }
+
+    df = None
+
+    #carga
+    if dataset_option != "Seleccionar...":
+        with st.spinner(f'Cargando datos de {dataset_option}...'):
+            df = load_data(urls.get(dataset_option))
+            if df is not None:
+                st.success(f"✅ Datos cargados: {dataset_option}")
+                st.session_state['data_source'] = dataset_option
     horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
     # Cargar los datos históricos desde el archivo CSV
