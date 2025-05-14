@@ -222,24 +222,32 @@ with tab2:
 #--------------------------------------------------------
 
 with tab3:
-    st.subheader("CÓMO AGREGAR TUS PROPIAS LOCALIZACIONES")
-    st.markdown("#### Primero debemos dirigirnos al siguiente enlace")
-    st.markdown("https://power.larc.nasa.gov/data-access-viewer/")
-    st.markdown(
-        "NASA POWER es una base de datos de variables climáticas gestionada por la NASA."
-        " De ella podemos obtener los datos necesarios para realizar predicciones al rededor" \
-        " del mundo."
-    )
-    st.image("imagenes/mainpage.png")
-    st.markdown(
-        "#### Una vez en la página de NASA POWER deberemos seguir estos sencillos pasos:"
-    )
-    st.markdown(
-        "##### 1. Nos ubicamos en la parte izquierda de la pantalla y seleccionamos 'single point'"
-    )
-    st.html(
-        "<div style='text-align: center;'><img src='{imagenes/selector.jpeg}' width='500'</div>"
-    )
+    expand = st.expander("My label", icon=":material/info:")
+    expand.write("Inside the expander.")
+    pop = st.popover("Button label")
+    pop.checkbox("Show all")
+
+    # You can also use "with" notation:
+    with expand:
+        st.radio("Select one:", [1, 2])
+        st.subheader("CÓMO AGREGAR TUS PROPIAS LOCALIZACIONES")
+        st.markdown("#### Primero debemos dirigirnos al siguiente enlace")
+        st.markdown("https://power.larc.nasa.gov/data-access-viewer/")
+        st.markdown(
+            "NASA POWER es una base de datos de variables climáticas gestionada por la NASA."
+            " De ella podemos obtener los datos necesarios para realizar predicciones al rededor" \
+            " del mundo."
+        )
+        st.image("imagenes/mainpage.png")
+        st.markdown(
+            "#### Una vez en la página de NASA POWER deberemos seguir estos sencillos pasos:"
+        )
+        st.markdown(
+            "##### 1. Nos ubicamos en la parte izquierda de la pantalla y seleccionamos 'single point'"
+        )
+        st.html(
+            "<div style='text-align: center;'><img src='{imagenes/selector.jpeg}' width='500'</div>"
+        )
 
 
 
