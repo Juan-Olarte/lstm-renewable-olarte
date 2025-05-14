@@ -166,7 +166,8 @@ with tab1:
             # Calcular energía generada (Wh) con eficiencia del 27%
             eficiencia = 0.27
             area_m2 = 1
-            energia_wh = predicciones_descaladas * 1000 * eficiencia * area_m2
+            perdidas = 0.8
+            energia_wh = predicciones_descaladas * eficiencia * area_m2 * perdidas
             potencia_w = predicciones_descaladas * 1
 
             # Asegurarse que ambas listas sean 1D y tengan la misma longitud
