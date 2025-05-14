@@ -54,18 +54,21 @@ def load_data(url):
 # Titulo de pestaña
 st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
 # Interfaz
-st.title("MODELO DE INTELIGENCIA ARTIFICIAL PARA PREDICCIÓN DE ENERGÍAS RENOVABLES")
+# Cabecera mejorada # MOD
+st.markdown(
+    "<h1 style='text-align: center; color: #0078D4;'>🔋 Predicción de Energías Renovables con IA</h1>",
+    unsafe_allow_html=True
+)
+st.markdown("<hr style='border:1px solid #ddd;'>", unsafe_allow_html=True)
 # You can also use "with" notation:
 # Insert containers separated into tabs:
 tab1, tab2, tab3 = st.tabs(["PREDICCIONES", "SOBRE NOSOTROS", "AYUDA Y TUTORIALES"])
-tab1.write("this is tab 1")
-tab2.write("this is tab 2")
-tab3.write("this is tab 3")
 
 #--------------------------------------------------------
 #  PESTAÑA 1 -- PREDICCIONES
 #--------------------------------------------------------
 with tab1:
+    st.info("🔧 Asegúrate de cargar un archivo válido o seleccionar una localización para comenzar.")
     st.subheader("Seleccione la localización que desea usar para la predicción")
     #Opciones predefinidas
     location = st.selectbox("Localizaciones predfinidas", [
