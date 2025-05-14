@@ -226,7 +226,6 @@ with tab3:
 
     # You can also use "with" notation:
     with expand:
-        st.radio("Select one:", [1, 2])
         st.subheader("CÓMO AGREGAR TUS PROPIAS LOCALIZACIONES")
         st.markdown("#### Primero debemos dirigirnos al siguiente enlace")
         st.markdown("https://power.larc.nasa.gov/data-access-viewer/")
@@ -243,6 +242,13 @@ with tab3:
             "##### 1. Nos ubicamos en la parte izquierda de la pantalla y seleccionamos 'single point'"
         )
         st.image("imagenes/selector.jpeg", width=300)
+        st.image("imagenes/community.jpeg")
+        st.image("imagenes/tiempo.jpeg")
+        st.image("imagenes/parametros.jpeg")
+        st.image("imagenes/mapa.jpeg")
+        st.image("imagenes/formato.jpeg")
+        st.image("imagenes/descarga.jpeg")
+        st.image("imagenes/dataset.jpeg")
 
 
 
