@@ -250,7 +250,23 @@ with tab3:
             "##### 3. Seleccionamos mediciones por hora, 'hourly'"
         )
         st.image("imagenes/tiempo.jpeg")
-        
+        st.markdown(
+            "##### 4. Escogemos el primer parámetro, ALL SKY SURFACE SHORTWAVE DOWNWARD RADIATION"
+        )
+        st.image("imagenes/parametros.jpeg")
+        st.markdown(
+            "##### 5. Ubicamos en el mapa el lugar del que queremos obtener los datos"
+        )
+        st.image("imagenes/mapa.jpeg")
+        st.markdown(
+            "##### 6. Escogemos el formato .csv y descargamos los datos con el botón 'Submit'"
+        )
+        st.image("imagenes/formato.jpeg")
+        st.image("imagenes/descarga.jpeg")
+        st.markdown(
+            "##### 7. Subimos los datos descargados la página web usando el botón 'Broswe Files'"
+        )
+        st.image("imagenes/browse.png")
 
 
 
