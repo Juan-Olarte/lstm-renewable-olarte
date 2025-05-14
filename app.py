@@ -119,28 +119,49 @@ with tab1:
     
     # Obtener últimos 24 valores
     if df is not None and 'ALLSKY_SFC_SW_DWN' in df.columns and len(df['ALLSKY_SFC_SW_DWN'].dropna()) >= 24:
-        ultimos_datos = df['ALLSKY_SFC_SW_DWN'].dropna().tail(24).values.reshape(-1, 1)
-
+        ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)
         horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
         if st.button("Generar predicción"):
-            # Preprocesamiento
+            # Escalado y reshape
             datos_escalados = scaler.transform(ultimos_datos)
-            entrada = datos_escalados.reshape(1, 24, 1)  # Para entrada LSTM
+            entrada = datos_escalados.reshape(1, 24, 1)
 
-            # Predicción
+            # Generar predicciones
             predicciones = []
             for _ in range(horas_a_predecir):
                 prediccion = model.predict(entrada)
                 predicciones.append(prediccion[0, 0])
 
-                # Actualizar entrada con la nueva predicción
                 datos_escalados = np.roll(datos_escalados, -1)
                 datos_escalados[-1, 0] = prediccion[0, 0]
                 entrada = datos_escalados.reshape(1, 24, 1)
 
             # Desescalar predicciones
-            predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1)).flatten()
+            predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1))
+
+            # Crear DataFrame para graficar
+            total_puntos = 24 + horas_a_predecir
+            serie_completa = [np.nan] * total_puntos
+            historico = ultimos_datos.flatten().tolist()
+            prediccion = predicciones_descaladas.flatten().tolist()
+
+            # Asignar valores históricos y predichos
+            for i in range(24):
+                serie_completa[i] = historico[i]
+            for i in range(horas_a_predecir):
+                serie_completa[24 + i] = prediccion[i]
+
+            # Crear índice temporal (puede ser horas ficticias)
+            index = pd.RangeIndex(start=0, stop=total_puntos, step=1)
+
+            df_resultado = pd.DataFrame({
+                "Valor": serie_completa,
+                "Tipo": ["Histórico"] * 24 + ["Predicción"] * horas_a_predecir
+            }, index=index)
+
+            # Mostrar gráfica
+            st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
 
             # Calcular energía generada (Wh) con eficiencia del 27%
             eficiencia = 0.27
@@ -161,9 +182,9 @@ with tab1:
                 st.line_chart(resultados_df)
             else:
                 st.error("Error: las dimensiones de radiación y energía no coinciden.")
-    else:
-        st.warning("🔍 Asegúrate de cargar un dataset válido con al menos 24 valores.")
 
+    else:
+        st.warning("🔍 Esperando que se carguen datos válidos con al menos 24 valores.")
 
 
 #--------------------------------------------------------
