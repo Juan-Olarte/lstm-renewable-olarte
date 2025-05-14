@@ -163,19 +163,25 @@ with tab1:
             # Mostrar gráfica
             st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
 
-            # Calcular energía generada (Wh) y potencia (W)
+            # Cálculo de energía y potencia
             eficiencia = 0.27
             area_m2 = 1
             energia_wh = predicciones_descaladas * 1000 * eficiencia * area_m2
-            potencia_w = energia_wh  # Asumiendo 1h por paso → Wh/h = W
+            potencia_w = energia_wh  # 1 hora → Wh/h = W
 
-            # Graficar energía generada
+            # Crear índice de tiempo
+            horas = [f"t+{i+1}" for i in range(horas_a_predecir)]
+
+            # Crear DataFrames
+            df_energia = pd.DataFrame({"Hora": horas, "Energía (Wh)": energia_wh})
+            df_potencia = pd.DataFrame({"Hora": horas, "Potencia (W)": potencia_w})
+
+            # Mostrar gráficas
             st.subheader("🔋 Energía generada por hora (Wh)")
-            st.line_chart(pd.DataFrame({"Energía (Wh)": energia_wh}))
+            st.line_chart(df_energia.set_index("Hora"))
 
-            # Graficar potencia instantánea
             st.subheader("⚡ Potencia instantánea estimada (W)")
-            st.line_chart(pd.DataFrame({"Potencia (W)": potencia_w}))
+            st.line_chart(df_potencia.set_index("Hora"))
 
     else:
         st.warning("🔍 Esperando que se carguen datos válidos con al menos 24 valores.")
