@@ -34,6 +34,7 @@ st.header("🔮 Predictor de Radiación Solar")
 tab1, tab2, tab3 = st.tabs(["PREDICCIONES", "SOBRE NOSOTROS", "AYUDA"])
 tab1.write("this is tab 1")
 tab2.write("this is tab 2")
+tab3.write("this is tab 3")
 
 #--------------------------------------------------------
 #  PESTAÑA 1 -- PREDICCIONES
