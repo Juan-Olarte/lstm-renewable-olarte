@@ -100,7 +100,6 @@ with tab1:
             if df is not None:
                 st.success(f"✅ Datos cargados: {location}")
                 st.session_state['data_source'] = location
-    horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
     uploaded_file = st.file_uploader("Usa la pestaña de ayuda y tutoriales para subir tus propias bases de datos", type=['csv'])
 
@@ -114,52 +113,57 @@ with tab1:
                 st.session_state['data_source'] = "Archivo personalizado"
         except Exception as e:
             st.error(f"Error al leer el archivo: {str(e)}")
+            df = None  # Asegurar que no se use un df inválido
 
     # PREDICCIONES
     
     # Obtener últimos 24 valores
-    ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)
+    if df is not None and 'ALLSKY_SFC_SW_DWN' in df.columns and len(df['ALLSKY_SFC_SW_DWN'].dropna()) >= 24:
+        ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)
+        horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
-    if st.button("Generar predicción"):
-        # Escalado y reshape
-        datos_escalados = scaler.transform(ultimos_datos)
-        entrada = datos_escalados.reshape(1, 24, 1)
-
-        # Generar predicciones
-        predicciones = []
-        for _ in range(horas_a_predecir):
-            prediccion = model.predict(entrada)
-            predicciones.append(prediccion[0, 0])
-
-            datos_escalados = np.roll(datos_escalados, -1)
-            datos_escalados[-1, 0] = prediccion[0, 0]
+        if st.button("Generar predicción"):
+            # Escalado y reshape
+            datos_escalados = scaler.transform(ultimos_datos)
             entrada = datos_escalados.reshape(1, 24, 1)
 
-        # Desescalar predicciones
-        predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1))
+            # Generar predicciones
+            predicciones = []
+            for _ in range(horas_a_predecir):
+                prediccion = model.predict(entrada)
+                predicciones.append(prediccion[0, 0])
 
-        # Crear DataFrame para graficar
-        total_puntos = 24 + horas_a_predecir
-        serie_completa = [np.nan] * total_puntos
-        historico = ultimos_datos.flatten().tolist()
-        prediccion = predicciones_descaladas.flatten().tolist()
+                datos_escalados = np.roll(datos_escalados, -1)
+                datos_escalados[-1, 0] = prediccion[0, 0]
+                entrada = datos_escalados.reshape(1, 24, 1)
 
-        # Asignar valores históricos y predichos
-        for i in range(24):
-            serie_completa[i] = historico[i]
-        for i in range(horas_a_predecir):
-            serie_completa[24 + i] = prediccion[i]
+            # Desescalar predicciones
+            predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1))
 
-        # Crear índice temporal (puede ser horas ficticias)
-        index = pd.RangeIndex(start=0, stop=total_puntos, step=1)
+            # Crear DataFrame para graficar
+            total_puntos = 24 + horas_a_predecir
+            serie_completa = [np.nan] * total_puntos
+            historico = ultimos_datos.flatten().tolist()
+            prediccion = predicciones_descaladas.flatten().tolist()
 
-        df_resultado = pd.DataFrame({
-            "Valor": serie_completa,
-            "Tipo": ["Histórico"] * 24 + ["Predicción"] * horas_a_predecir
-        }, index=index)
+            # Asignar valores históricos y predichos
+            for i in range(24):
+                serie_completa[i] = historico[i]
+            for i in range(horas_a_predecir):
+                serie_completa[24 + i] = prediccion[i]
 
-        # Mostrar gráfica
-        st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
+            # Crear índice temporal (puede ser horas ficticias)
+            index = pd.RangeIndex(start=0, stop=total_puntos, step=1)
+
+            df_resultado = pd.DataFrame({
+                "Valor": serie_completa,
+                "Tipo": ["Histórico"] * 24 + ["Predicción"] * horas_a_predecir
+            }, index=index)
+
+            # Mostrar gráfica
+            st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
+    else:
+        st.warning("🔍 Esperando que se carguen datos válidos con al menos 24 valores.")
 
 
 #--------------------------------------------------------
