@@ -237,7 +237,7 @@ with tab3:
     st.markdown(
         "##### 1. Nos ubicamos en la parte izquierda de la pantalla y seleccionamos 'single point'"
     )
-    st.image("imagenes/selector.jpeg")
+    st.image("imagenes/selector.jpeg", use_column_width=True)
 
 
 
