@@ -29,13 +29,27 @@ scaler = joblib.load("my_scaler.pkl")  # Update path
 
 @st.cache_data
 def load_data(url):
-    """Carga datos desde una URL con caché para mejor rendimiento"""
+    """Carga solo la quinta columna desde una URL con caché para mejor rendimiento"""
     try:
+        # Asegura que sea un enlace de descarga directa
+        if "dl=0" in url:
+            url = url.replace("dl=0", "raw=1")
+        elif "dl=1" in url:
+            url = url.replace("dl=1", "raw=1")
+        elif "raw=1" not in url:
+            url += "&raw=1"
+
         response = requests.get(url)
-        return pd.read_csv(StringIO(response.text))
+        response.raise_for_status()
+
+        # Leer solo la 5ta columna (índice 4)
+        df = pd.read_csv(StringIO(response.text), usecols=[4])
+
+        return df
     except Exception as e:
         st.error(f"Error al cargar datos: {str(e)}")
         return None
+
 
 # Titulo de pestaña
 st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
