@@ -138,7 +138,7 @@ with tab1:
 
         # Resultado
         st.line_chart({
-            #"Histórico": ultimos_datos.flatten(),
+            "Histórico": ultimos_datos.flatten(),
             "Predicción": predicciones_descaladas.flatten()
         })
 
