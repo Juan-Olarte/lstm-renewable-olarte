@@ -115,51 +115,32 @@ with tab1:
             st.error(f"Error al leer el archivo: {str(e)}")
 
     # PREDICCIONES
-
-    # Obtener últimos 24 valores
-    ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)
+    ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)  # Get last 24 hours
 
     if st.button("Generar predicción"):
-        # Escalado y reshape
+        # Preprocesamiento
         datos_escalados = scaler.transform(ultimos_datos)
-        entrada = datos_escalados.reshape(1, 24, 1)
+        entrada = datos_escalados.reshape(1, 24, 1)  # Reshape for LSTM input
 
-        # Generar predicciones
+        # Predicción para múltiples horas
         predicciones = []
         for _ in range(horas_a_predecir):
             prediccion = model.predict(entrada)
-            predicciones.append(prediccion[0, 0])
+            predicciones.append(prediccion[0, 0])  # Get the prediction value
 
-            datos_escalados = np.roll(datos_escalados, -1)
-            datos_escalados[-1, 0] = prediccion[0, 0]
+            # Update input for next prediction (shift and add the new prediction)
+            datos_escalados = np.roll(datos_escalados, -1)  # Shift data one step back
+            datos_escalados[-1, 0] = prediccion[0, 0]  # Add the new prediction
             entrada = datos_escalados.reshape(1, 24, 1)
 
-        # Desescalar predicciones
+        # Desescalar las predicciones
         predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1))
 
-        # Crear DataFrame para graficar
-        total_puntos = 24 + horas_a_predecir
-        serie_completa = [np.nan] * total_puntos
-        historico = ultimos_datos.flatten().tolist()
-        prediccion = predicciones_descaladas.flatten().tolist()
-
-        # Asignar valores históricos y predichos
-        for i in range(24):
-            serie_completa[i] = historico[i]
-        for i in range(horas_a_predecir):
-            serie_completa[24 + i] = prediccion[i]
-
-        # Crear índice temporal (puede ser horas ficticias)
-        index = pd.RangeIndex(start=0, stop=total_puntos, step=1)
-
-        df_resultado = pd.DataFrame({
-            "Valor": serie_completa,
-            "Tipo": ["Histórico"] * 24 + ["Predicción"] * horas_a_predecir
-        }, index=index)
-
-        # Mostrar gráfica
-        st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
-
+        # Resultado
+        st.line_chart({
+            "Histórico": ultimos_datos.flatten(),
+            "Predicción": predicciones_descaladas.flatten()
+        })
 
 #--------------------------------------------------------
 #  PESTAÑA 2 -- SOBRE NOSOTROS
