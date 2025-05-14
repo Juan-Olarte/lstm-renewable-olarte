@@ -195,7 +195,7 @@ with tab1:
             promedio_energia = np.mean(energia_wh)
             preciokwh = ['934.46','919.84','943.46','799.67','808.93']
             preciokwh = [float(p) for p in preciokwh]  # convierte a float
-            ahorrokwh = [p * 0.001 * promedio_energia * horas_a_predecir for p in preciokwh]
+            ahorrokwh = [p * 0.001 * promedio_energia for p in preciokwh]
 
             ahorro = {
                 'Ciudad': ['Cúcuta','Medellín','Bucaramanga','Cali','Bogotá'],
