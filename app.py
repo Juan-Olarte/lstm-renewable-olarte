@@ -273,6 +273,12 @@ with tab3:
 
     with expand2:
         st.markdown("#### 1. Selecciona una localización predefinida o sube la tuya")
+        st.image("imagenes/pred1.png")
         st.markdown("#### 2. Instroduce la cantidad de horas que deseas predecir")
+        st.image("imagenes/pred2.png")
         st.markdown("#### 3. Haz click en el botón 'generar predicción'")
+        st.image("imagenes/pred3.png")
         st.markdown("#### 4. ¡Observa tu predicción!")
+        st.image("imagenes/pred4.png")
+        st.image("imagenes/pred5.png")
+        st.image("imagenes/pred6.png")
