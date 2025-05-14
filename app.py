@@ -167,15 +167,15 @@ with tab1:
             eficiencia = 0.27
             area_m2 = 1
             energia_wh = predicciones_descaladas * 1000 * eficiencia * area_m2
-            potencia_w = predicciones_descaladas 
+            potencia_w = predicciones_descaladas * 1
 
             # Asegurarse que ambas listas sean 1D y tengan la misma longitud
-            potencia_w = np.array(potencia_w).flatten()
             energia_wh = np.array(energia_wh).flatten()
+            potencia_inst = np.array(potencia_w).flatten()
 
-            if len(potencia_w) == len(energia_wh):
+            if len(potencia_inst) == len(energia_wh):
                 resultados_df = pd.DataFrame({
-                    "Potencia instantánea (W)": potencia_w,
+                    "Potencia instantánea (W)": potencia_inst,
                     "Energía generada (Wh)": energia_wh
                 })
 
