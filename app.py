@@ -31,41 +31,56 @@ st.set_page_config(page_title='Predicción Energías Renovables', layout='wide',
 st.header("🔮 Predictor de Radiación Solar")
 # You can also use "with" notation:
 # Insert containers separated into tabs:
-tab1, tab2 = st.tabs(["Tab 1", "Tab2"])
+tab1, tab2, tab3 = st.tabs(["PREDICCIONES", "SOBRE NOSOTROS", "AYUDA"])
 tab1.write("this is tab 1")
 tab2.write("this is tab 2")
 
-# You can also use "with" notation:
+#--------------------------------------------------------
+#  PESTAÑA 1 -- PREDICCIONES
+#--------------------------------------------------------
 with tab1:
     st.radio("Select one:", [1, 2])
     horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
-# Cargar los datos históricos desde el archivo CSV
-df = pd.read_csv("renewable_power_dataset_preprocesado.csv")  # Update path
-ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)  # Get last 24 hours
+    # Cargar los datos históricos desde el archivo CSV
+    df = pd.read_csv("renewable_power_dataset_preprocesado.csv")  # Update path
+    ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)  # Get last 24 hours
 
-if st.button("Generar predicción"):
-    # Preprocesamiento
-    datos_escalados = scaler.transform(ultimos_datos)
-    entrada = datos_escalados.reshape(1, 24, 1)  # Reshape for LSTM input
+    if st.button("Generar predicción"):
+        # Preprocesamiento
+        datos_escalados = scaler.transform(ultimos_datos)
+        entrada = datos_escalados.reshape(1, 24, 1)  # Reshape for LSTM input
 
-    # Predicción para múltiples horas
-    predicciones = []
-    for _ in range(horas_a_predecir):
-        prediccion = model.predict(entrada)
-        predicciones.append(prediccion[0, 0])  # Get the prediction value
+        # Predicción para múltiples horas
+        predicciones = []
+        for _ in range(horas_a_predecir):
+            prediccion = model.predict(entrada)
+            predicciones.append(prediccion[0, 0])  # Get the prediction value
 
-        # Update input for next prediction (shift and add the new prediction)
-        datos_escalados = np.roll(datos_escalados, -1)  # Shift data one step back
-        datos_escalados[-1, 0] = prediccion[0, 0]  # Add the new prediction
-        entrada = datos_escalados.reshape(1, 24, 1)
+            # Update input for next prediction (shift and add the new prediction)
+            datos_escalados = np.roll(datos_escalados, -1)  # Shift data one step back
+            datos_escalados[-1, 0] = prediccion[0, 0]  # Add the new prediction
+            entrada = datos_escalados.reshape(1, 24, 1)
 
-    # Desescalar las predicciones
-    predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1))
+        # Desescalar las predicciones
+        predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1))
 
-    # Resultado
-    st.line_chart({
-        "Histórico": ultimos_datos.flatten(),
-        "Predicción": predicciones_descaladas.flatten()
-    })
+        # Resultado
+        st.line_chart({
+            "Histórico": ultimos_datos.flatten(),
+            "Predicción": predicciones_descaladas.flatten()
+        })
+
+#--------------------------------------------------------
+#  PESTAÑA 2 -- SOBRE NOSOTROS
+#--------------------------------------------------------
+
+with tab2:
+
+#--------------------------------------------------------
+#  PESTAÑA 3 -- AYUDA
+#--------------------------------------------------------
+
+with tab3:
+
 
