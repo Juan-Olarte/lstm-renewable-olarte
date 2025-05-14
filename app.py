@@ -223,7 +223,7 @@ with tab2:
 
 with tab3:
     st.subheader("CÓMO AGREGAR TUS PROPIAS LOCALIZACIONES")
-    st.markdown("#Primero debemos dirigirnos al siguiente enlace")
+    st.markdown("### Primero debemos dirigirnos al siguiente enlace")
     st.markdown("https://power.larc.nasa.gov/data-access-viewer/")
 
 
