@@ -192,8 +192,10 @@ with tab1:
                 st.error("Error: las dimensiones de radiación y energía no coinciden.")
 
             st.subheader("¿CUÁNTO DINERO AHORRARÍA UNA VIVIENDA?")
-            preciokwh = [934.46,919.84,943.46,799.67,808.93]
-            ahorrokwh = preciokwh * 0.001 * energia_wh
+            preciokwh = ['934.46','919.84','943.46','799.67','808.93']
+            preciokwh = [float(p) for p in preciokwh]  # convierte a float
+            ahorrokwh = [p * 0.001 * energia_wh for p in preciokwh]
+
             ahorro = {
                 'Ciudad': ['Cúcuta','Medellín','Bucaramanga','Cali','Bogotá'],
                 'Preio KWh': ahorrokwh
