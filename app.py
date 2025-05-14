@@ -54,11 +54,7 @@ def load_data(url):
 # Titulo de pestaña
 st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
 # Interfaz
-<<<<<<< HEAD
 st.title("MODELO DE INTELIGENCIA ARTIFICIAL PARA PREDICCIÓN DE ENERGÍAS RENOVABLES")
-=======
-st.header("MODELO DE INTELIGENCIA ARTIFICIAL PARA PREDICCIÓN DE ENERGÍAS RENOVABLES")
->>>>>>> a4eb2750393fe61720116fe018067ad8f565ffb7
 # You can also use "with" notation:
 # Insert containers separated into tabs:
 tab1, tab2, tab3 = st.tabs(["PREDICCIONES", "SOBRE NOSOTROS", "AYUDA Y TUTORIALES"])
@@ -226,11 +222,7 @@ with tab2:
 #--------------------------------------------------------
 
 with tab3:
-<<<<<<< HEAD
     st.subheader("CÓMO AGREGAR TUS PROPIAS LOCALIZACIONES")
 
-=======
-    st.write("PLACEHOLDER")
->>>>>>> a4eb2750393fe61720116fe018067ad8f565ffb7
 
 
