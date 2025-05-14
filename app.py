@@ -12,8 +12,10 @@ import requests
 from io import StringIO
 from datetime import datetime
 
+#--------------------------------------------------
+# DEFINICIONES
+#--------------------------------------------------
 
-# Define y registra RMSE
 @keras.saving.register_keras_serializable(name="RMSE")
 def RMSE(y_true, y_pred):
     return keras.ops.sqrt(keras.ops.mean(keras.ops.square(y_pred - y_true), axis=-1))
@@ -24,6 +26,16 @@ model = load_model(
     custom_objects={"RMSE": RMSE}
 )
 scaler = joblib.load("my_scaler.pkl")  # Update path
+
+@st.cache_data
+def load_data(url):
+    """Carga datos desde una URL con caché para mejor rendimiento"""
+    try:
+        response = requests.get(url)
+        return pd.read_csv(StringIO(response.text))
+    except Exception as e:
+        st.error(f"Error al cargar datos: {str(e)}")
+        return None
 
 # Titulo de pestaña
 st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
