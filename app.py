@@ -192,7 +192,7 @@ with tab1:
                 st.error("Error: las dimensiones de radiación y energía no coinciden.")
 
             st.subheader("¿CUÁNTO DINERO AHORRARÍA UNA VIVIENDA?")
-            promedio_energia = np.mean(energia_wh)
+            promedio_energia = np.mean(energia_wh) * horas_a_predecir
             preciokwh = ['934.46','919.84','943.46','799.67','808.93']
             preciokwh = [float(p) for p in preciokwh]  # convierte a float
             ahorrokwh = [p * 0.001 * promedio_energia for p in preciokwh]
