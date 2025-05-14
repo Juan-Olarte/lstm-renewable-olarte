@@ -38,8 +38,7 @@ tab2.write("this is tab 2")
 # You can also use "with" notation:
 with tab1:
     st.radio("Select one:", [1, 2])
-
-horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
+    horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
 # Cargar los datos históricos desde el archivo CSV
 df = pd.read_csv("renewable_power_dataset_preprocesado.csv")  # Update path
@@ -69,3 +68,4 @@ if st.button("Generar predicción"):
         "Histórico": ultimos_datos.flatten(),
         "Predicción": predicciones_descaladas.flatten()
     })
+
