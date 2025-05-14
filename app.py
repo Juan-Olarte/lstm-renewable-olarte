@@ -67,12 +67,12 @@ with tab1:
     df = None
 
     #carga
-    if dataset_option != "Seleccionar...":
-        with st.spinner(f'Cargando datos de {dataset_option}...'):
-            df = load_data(urls.get(dataset_option))
+    if location != "Seleccionar...":
+        with st.spinner(f'Cargando datos de {location}...'):
+            df = load_data(urls.get(location))
             if df is not None:
-                st.success(f"✅ Datos cargados: {dataset_option}")
-                st.session_state['data_source'] = dataset_option
+                st.success(f"✅ Datos cargados: {location}")
+                st.session_state['data_source'] = location
     horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
     # Cargar los datos históricos desde el archivo CSV
