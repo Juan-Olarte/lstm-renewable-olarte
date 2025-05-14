@@ -124,7 +124,18 @@ with tab1:
     if df is not None and 'ALLSKY_SFC_SW_DWN' in df.columns and len(df['ALLSKY_SFC_SW_DWN'].dropna()) >= 24:
         ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)
         st.subheader("Seleccione el tiempo de predicción")
-        horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
+        horas_a_predecir = st.number_input(
+            "Introduce el número de horas a predecir:",
+            min_value=1,
+            step=1,
+            value=24
+        )
+
+        if horas_a_predecir > 48:
+            st.warning("⚠️ El modelo solo permite predecir hasta 48 horas. Por favor, ingresa un número menor o igual a 48.")
+        elif horas_a_predecir <= 0:
+            st.warning("⚠️ Por favor, introduce un número positivo mayor a 0.")
+
 
         if st.button("Generar predicción"):
             # Escalado y reshape
