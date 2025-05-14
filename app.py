@@ -222,10 +222,7 @@ with tab2:
 #--------------------------------------------------------
 
 with tab3:
-    expand = st.expander("My label", icon=":material/info:")
-    expand.write("Inside the expander.")
-    pop = st.popover("Button label")
-    pop.checkbox("Show all")
+    expand = st.expander("Como agregar localizaciones personalizadas", icon=":material/info:")
 
     # You can also use "with" notation:
     with expand:
@@ -245,9 +242,7 @@ with tab3:
         st.markdown(
             "##### 1. Nos ubicamos en la parte izquierda de la pantalla y seleccionamos 'single point'"
         )
-        st.html(
-            "<div style='text-align: center;'><img src='{imagenes/selector.jpeg}' width='500'</div>"
-        )
+        st.image("imagenes/selector.jpeg", width=300)
 
 
 
