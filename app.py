@@ -225,6 +225,12 @@ with tab3:
     st.subheader("CÓMO AGREGAR TUS PROPIAS LOCALIZACIONES")
     st.markdown("#### Primero debemos dirigirnos al siguiente enlace")
     st.markdown("https://power.larc.nasa.gov/data-access-viewer/")
+    st.markdown(
+        "NASA POWER es una base de datos de variables climáticas gestionada por la NASA." \
+        "De ella podemos obtener los datos necesarios para realizar predicciones al rededor" \
+        "del mundo."
+    )
+    st.image("https://www.dropbox.com/scl/fi/dr5h0ok0zzm04pkg5u99k/mainpage.png?rlkey=x6puz1akk6raghy7cjy2xittn&st=sntsfu8x&dl=0")
 
 
 
