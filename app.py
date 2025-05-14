@@ -57,7 +57,7 @@ st.set_page_config(page_title='Predicción Energías Renovables', layout='wide',
 st.header("MODELO DE INTELIGENCIA ARTIFICIAL PARA PREDICCIÓN DE ENERGÍAS RENOVABLES")
 # You can also use "with" notation:
 # Insert containers separated into tabs:
-tab1, tab2, tab3 = st.tabs(["PREDICCIONES", "SOBRE NOSOTROS", "AYUDA"])
+tab1, tab2, tab3 = st.tabs(["PREDICCIONES", "SOBRE NOSOTROS", "AYUDA Y TUTORIALES"])
 tab1.write("this is tab 1")
 tab2.write("this is tab 2")
 tab3.write("this is tab 3")
@@ -101,8 +101,20 @@ with tab1:
                 st.session_state['data_source'] = location
     horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
-    # Cargar los datos históricos desde el archivo CSV
-    df = pd.read_csv("renewable_power_dataset_preprocesado.csv")  # Update path
+    uploaded_file = st.file_uploader("Usa la pestaña de ayuda y tutoriales para subir tus propias bases de datos", type=['csv'])
+
+    if uploaded_file is not None:
+        try:
+            df = pd.read_csv(uploaded_file)
+            if 'ALLSKY_SFC_SW_DWN' not in df.columns:
+                st.error("El archivo debe contener la columna 'ALLSKY_SFC_SW_DWN'")
+            else:
+                st.success("✅ Archivo cargado correctamente")
+                st.session_state['data_source'] = "Archivo personalizado"
+        except Exception as e:
+            st.error(f"Error al leer el archivo: {str(e)}")
+
+    # PREDICCIONES
     ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)  # Get last 24 hours
 
     if st.button("Generar predicción"):
@@ -126,7 +138,7 @@ with tab1:
 
         # Resultado
         st.line_chart({
-            "Histórico": ultimos_datos.flatten(),
+            #"Histórico": ultimos_datos.flatten(),
             "Predicción": predicciones_descaladas.flatten()
         })
 
