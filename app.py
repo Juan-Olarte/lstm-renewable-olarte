@@ -203,7 +203,8 @@ with tab1:
             })
 
             # Métricas
-            energia_wh = pred_des * 0.27 * 1 * 0.8\ n    potencia_w = pred_des
+            energia_wh = pred_des * 0.27 * 1 * 0.8
+            potencia_w = pred_des
             ahorro = energia_wh.sum() * precios_kwh[ciudad] * 0.001
 
             col1, col2, col3 = st.columns(3)
