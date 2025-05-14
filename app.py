@@ -198,12 +198,12 @@ with tab3:
         st.subheader("CÓMO AGREGAR TUS PROPIAS LOCALIZACIONES")
         st.markdown("#### Dirígete a: https://power.larc.nasa.gov/data-access-viewer/")
         st.markdown(
-            "1. Selecciona 'single point' en la parte izquierda.  
-"
-            "2. Elige 'community' → 'hourly' → 'ALL SKY SURFACE SHORTWAVE DOWNWARD RADIATION'.  
-"
-            "3. Ubica el punto en el mapa y descarga el CSV.  
-"
+            "1. Selecciona 'single point' en la parte izquierda.  " \
+
+            "2. Elige 'community' → 'hourly' → 'ALL SKY SURFACE SHORTWAVE DOWNWARD RADIATION'.  "\
+
+            "3. Ubica el punto en el mapa y descarga el CSV.  "\
+
             "4. Sube el CSV usando el botón de 'Browse Files'."
         )
         st.image("imagenes/mainpage.png")
