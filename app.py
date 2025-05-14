@@ -28,7 +28,7 @@ scaler = joblib.load("my_scaler.pkl")  # Update path
 # Titulo de pestaña
 st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
 # Interfaz
-st.title("🔮 Predictor de Radiación Solar")
+st.header("🔮 Predictor de Radiación Solar")
 # You can also use "with" notation:
 # Insert containers separated into tabs:
 tab1, tab2 = st.tabs(["Tab 1", "Tab2"])
