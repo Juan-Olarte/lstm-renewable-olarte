@@ -226,7 +226,7 @@ with tab2:
 
 with tab3:
     expand = st.expander("Como agregar localizaciones personalizadas", icon=":material/info:")
-    expand2 = st.expander("Como agregar localizaciones personalizadas", icon=":material/info:")
+    expand2 = st.expander("Como hacer predicciones", icon=":material/info:")
 
     # You can also use "with" notation:
     with expand:
@@ -272,4 +272,7 @@ with tab3:
         st.image("imagenes/browse.png")
 
     with expand2:
-        st.text("equisde")
+        st.markdown("#### 1. Selecciona una localización predefinida o sube la tuya")
+        st.markdown("#### 2. Instroduce la cantidad de horas que deseas predecir")
+        st.markdown("#### 3. Haz click en el botón 'generar predicción'")
+        st.markdown("#### 4. ¡Observa tu predicción!")
