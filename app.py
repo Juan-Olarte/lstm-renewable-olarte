@@ -123,87 +123,118 @@ with tab1:
         st.subheader("Seleccione el tiempo de predicción")
         horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
-        if st.button("Generar predicción"):
-            # Escalado y reshape
+        # ----- CSS & Theme -----
+        st.set_page_config(page_title="Predicción Climática IA", layout="wide")
+        st.markdown(
+            """
+            <style>
+            .stButton>button { background-color: #1f77b4; color: white; border-radius: 8px; }
+            .css-1v3fvcr { text-align: center; }
+            </style>
+            """, unsafe_allow_html=True)
+
+        # ----- Carga de Modelo y Scaler -----
+        @st.cache(allow_output_mutation=True)
+        def cargar_modelo():
+            model = load_model("model_clima.h5")
+            scaler = MinMaxScaler()
+            # Cargar parámetros de scaler (suponiendo guardados en un archivo)
+            scaler.min_, scaler.scale_ = np.load("scaler_params.npy", allow_pickle=True)
+            return model, scaler
+
+        model, scaler = cargar_modelo()
+
+        # ----- Sidebar -----
+        horas_a_predecir = st.sidebar.slider("Horas a predecir", min_value=1, max_value=48, value=24)
+        ciudades = ["Cúcuta","Medellín","Bucaramanga","Cali","Bogotá"]
+        ciudad = st.sidebar.selectbox("Ciudad", ciudades)
+        precios_kwh = {
+            "Cúcuta": 934.46,
+            "Medellín": 919.84,
+            "Bucaramanga": 943.46,
+            "Cali": 799.67,
+            "Bogotá": 808.93
+        }
+
+        # ----- Simulación de datos históricos -----
+        # En tu caso, sustituir con la obtención real de ultimos_datos
+        ultimos_datos = np.random.rand(24, 1)
+
+        # ----- Función de Predicción -----
+        def generar_prediccion(ultimos_datos, horas, model, scaler):
             datos_escalados = scaler.transform(ultimos_datos)
             entrada = datos_escalados.reshape(1, 24, 1)
-
-            # Generar predicciones
-            predicciones = []
-            for _ in range(horas_a_predecir):
-                prediccion = model.predict(entrada)
-                predicciones.append(prediccion[0, 0])
-
+            pred = []
+            for i in range(horas):
+                p = model.predict(entrada)[0, 0]
+                pred.append(p)
                 datos_escalados = np.roll(datos_escalados, -1)
-                datos_escalados[-1, 0] = prediccion[0, 0]
+                datos_escalados[-1, 0] = p
                 entrada = datos_escalados.reshape(1, 24, 1)
+            pred = np.array(pred).reshape(-1,1)
+            return scaler.inverse_transform(pred).flatten()
 
-            # Desescalar predicciones
-            predicciones_descaladas = scaler.inverse_transform(np.array(predicciones).reshape(-1, 1))
+        # ----- Botón y visualización -----
+        if st.button("🌞 Generar predicción"):
+            with st.spinner("Generando predicciones…"):
+                progress = st.progress(0)
+                predicciones = []
+                # Escalado inicial\ n        datos_escalados = scaler.transform(ultimos_datos)
+                entrada = datos_escalados.reshape(1,24,1)
+                for i in range(horas_a_predecir):
+                    p = model.predict(entrada)[0,0]
+                    predicciones.append(p)
+                    datos_escalados = np.roll(datos_escalados, -1)
+                    datos_escalados[-1,0] = p
+                    entrada = datos_escalados.reshape(1,24,1)
+                    progress.progress((i+1)/horas_a_predecir)
+                pred_des = scaler.inverse_transform(np.array(predicciones).reshape(-1,1)).flatten()
+            st.success("¡Predicción completada!")
 
-            # Crear DataFrame para graficar
-            total_puntos = 24 + horas_a_predecir
-            serie_completa = [np.nan] * total_puntos
-            historico = ultimos_datos.flatten().tolist()
-            prediccion = predicciones_descaladas.flatten().tolist()
+            # Datos completos
+            total = 24 + horas_a_predecir
+            serie = [np.nan]*total
+            for i,v in enumerate(ultimos_datos.flatten()): serie[i] = v
+            for j,v in enumerate(pred_des): serie[24+j] = v
+            df = pd.DataFrame({
+                "Hora": list(range(total)),
+                "Valor": serie,
+                "Tipo": ["Histórico"]*24 + ["Predicción"]*horas_a_predecir
+            })
 
-            # Asignar valores históricos y predichos
-            for i in range(24):
-                serie_completa[i] = historico[i]
-            for i in range(horas_a_predecir):
-                serie_completa[24 + i] = prediccion[i]
+            # Métricas
+            energia_wh = pred_des * 0.27 * 1 * 0.8\ n    potencia_w = pred_des
+            ahorro = energia_wh.sum() * precios_kwh[ciudad] * 0.001
 
-            # Crear índice temporal (puede ser horas ficticias)
-            index = pd.RangeIndex(start=0, stop=total_puntos, step=1)
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Potencia Pico (W)", f"{potencia_w.max():.1f}")
+            col2.metric("Energía Total (Wh)", f"{energia_wh.sum():.0f}")
+            col3.metric("Ahorro Estimado ($)", f"{ahorro:.0f}")
 
-            df_resultado = pd.DataFrame({
-                "Valor": serie_completa,
-                "Tipo": ["Histórico"] * 24 + ["Predicción"] * horas_a_predecir
-            }, index=index)
+            # Pestañas
+            tab1, tab2, tab3 = st.tabs(["Radiación", "Potencia/Energía", "Ahorro Económico"])
+            with tab1:
+                base = alt.Chart(df).encode(
+                    x=alt.X("Hora:Q", title="Hora"),
+                    y=alt.Y("Valor:Q", title="Radiación"),
+                    color="Tipo:N",
+                    tooltip=["Hora","Valor","Tipo"]
+                )
+                st.altair_chart(base.mark_line().interactive(), use_container_width=True)
 
-            # Mostrar gráfica
-            st.subheader("Radiación solar predicha para el intervalo de tiempo seleccionado")
-            st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
+            with tab2:
+                df_pot = pd.DataFrame({"Hora": range(horas_a_predecir), "Potencia": potencia_w})
+                df_ener = pd.DataFrame({"Hora": range(horas_a_predecir), "Energía": energia_wh})
+                st.line_chart(df_pot.set_index("Hora"), height=300)
+                st.line_chart(df_ener.set_index("Hora"), height=300)
 
-            # Calcular energía generada (Wh) con eficiencia del 27%
-            eficiencia = 0.27
-            area_m2 = 1
-            perdidas = 0.8
-            energia_wh = predicciones_descaladas * eficiencia * area_m2 * perdidas
-            potencia_w = predicciones_descaladas * 1
-
-            # Asegurarse que ambas listas sean 1D y tengan la misma longitud
-            energia_wh = np.array(energia_wh).flatten()
-            potencia_inst = np.array(potencia_w).flatten()
-
-            if len(potencia_inst) == len(energia_wh):
-                resultados_df = pd.DataFrame({
-                    "Potencia instantánea (W)": potencia_inst
+            with tab3:
+                df_ahorro = pd.DataFrame({
+                    "Ciudad": ciudades,
+                    "Precio KWh": [precios_kwh[c] for c in ciudades],
+                    "Ahorro por panel ($)": [energia_wh.sum()*0.001*precios_kwh[c] for c in ciudades]
                 })
-                resultados2_df = pd.DataFrame({
-                    "Energía generada (Wh)": energia_wh
-                })
-
-                st.subheader("Potencia instantánea estimada para un panel de 1m² (27% eficiencia)")
-                st.line_chart(resultados_df)
-                st.subheader("Energía estimada para un panel de 1m² (27% eficiencia)")
-                st.line_chart(resultados2_df)
-            else:
-                st.error("Error: las dimensiones de radiación y energía no coinciden.")
-
-            st.subheader("¿CUÁNTO DINERO AHORRARÍA UNA VIVIENDA?")
-            promedio_energia = np.mean(energia_wh) * horas_a_predecir
-            preciokwh = ['934.46','919.84','943.46','799.67','808.93']
-            preciokwh = [float(p) for p in preciokwh]  # convierte a float
-            ahorrokwh = [p * 0.001 * promedio_energia for p in preciokwh]
-
-            ahorro = {
-                'Ciudad': ['Cúcuta','Medellín','Bucaramanga','Cali','Bogotá'],
-                'Precio KWh': preciokwh,
-                'Dinero ahorrado por panel solar:': ahorrokwh
-            }
-            df_ahorro = pd.DataFrame(ahorro)
-            st.table(df_ahorro)
+                st.table(df_ahorro)
 
 
     else:
@@ -223,6 +254,7 @@ with tab2:
 
 with tab3:
     expand = st.expander("Como agregar localizaciones personalizadas", icon=":material/info:")
+    expand2 = st.expander("Como agregar localizaciones personalizadas", icon=":material/info:")
 
     # You can also use "with" notation:
     with expand:
@@ -267,6 +299,9 @@ with tab3:
             "##### 7. Subimos los datos descargados la página web usando el botón 'Broswe Files'"
         )
         st.image("imagenes/browse.png")
+
+    with expand2:
+
 
 
 
