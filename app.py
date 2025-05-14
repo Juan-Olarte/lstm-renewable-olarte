@@ -120,6 +120,7 @@ with tab1:
     # Obtener últimos 24 valores
     if df is not None and 'ALLSKY_SFC_SW_DWN' in df.columns and len(df['ALLSKY_SFC_SW_DWN'].dropna()) >= 24:
         ultimos_datos = df['ALLSKY_SFC_SW_DWN'].tail(24).values.reshape(-1, 1)
+        st.subheader("Seleccione el tiempo de predicción")
         horas_a_predecir = st.slider("Selecciona horas a predecir:", 1, 48, 24)
 
         if st.button("Generar predicción"):
@@ -161,6 +162,7 @@ with tab1:
             }, index=index)
 
             # Mostrar gráfica
+            st.subheader("Radiación solar predicha para el intervalo de tiempo seleccionado")
             st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
 
             # Calcular energía generada (Wh) con eficiencia del 27%
