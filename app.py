@@ -163,7 +163,7 @@ with tab1:
             # Convertir a energía generada (Wh)
             eficiencia = 0.27  # 27%
             area_m2 = 1  # 1 m²
-            energia_wh = predicciones_descaladas * 1000 * eficiencia * area_m2
+            energia_wh = predicciones_descaladas.flatten() * 1000 * eficiencia * area_m2
 
             # Mostrar gráfica
             st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
