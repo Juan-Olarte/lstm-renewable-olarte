@@ -195,7 +195,7 @@ with tab1:
             preciokwh = ['934','919','943','799','808']
             ahorrokwh = preciokwh * 0.001 * energia_wh
             ahorro = {
-                'Ciudad': ['Cúcuta','Medellín','Bucaramanga','Cali','Bogotá']
+                'Ciudad': ['Cúcuta','Medellín','Bucaramanga','Cali','Bogotá'],
                 'Preio KWh': ahorrokwh
             }
             df_ahorro = pd.DataFrame(ahorro)
