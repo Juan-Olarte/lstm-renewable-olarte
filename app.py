@@ -176,7 +176,7 @@ with tab1:
             if len(potencia_inst) == len(energia_wh):
                 resultados_df = pd.DataFrame({
                     "Potencia instantánea (W)": potencia_inst,
-                    "Energía generada (Wh)": energia_wh
+                    #"Energía generada (Wh)": energia_wh
                 })
 
                 st.subheader("Potencia instantánea y energía estimada para un panel de 1m² (27% eficiencia)")
