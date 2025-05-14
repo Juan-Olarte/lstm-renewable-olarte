@@ -163,25 +163,19 @@ with tab1:
             # Mostrar gráfica
             st.line_chart(df_resultado.pivot(columns="Tipo", values="Valor"))
 
-            # Calcular energía generada (Wh) con eficiencia del 27%
+            # Calcular energía generada (Wh) y potencia (W)
             eficiencia = 0.27
             area_m2 = 1
             energia_wh = predicciones_descaladas * 1000 * eficiencia * area_m2
+            potencia_w = energia_wh  # Asumiendo 1h por paso → Wh/h = W
 
-            # Asegurarse que ambas listas sean 1D y tengan la misma longitud
-            radiacion_predicha = np.array(predicciones_descaladas).flatten()
-            energia_wh = np.array(energia_wh).flatten()
+            # Graficar energía generada
+            st.subheader("🔋 Energía generada por hora (Wh)")
+            st.line_chart(pd.DataFrame({"Energía (Wh)": energia_wh}))
 
-            if len(radiacion_predicha) == len(energia_wh):
-                resultados_df = pd.DataFrame({
-                    "Radiación predicha (kWh/m²)": radiacion_predicha,
-                    "Energía generada (Wh)": energia_wh
-                })
-
-                st.subheader("Radiación solar y energía estimada para un panel de 1m² (27% eficiencia)")
-                st.line_chart(resultados_df)
-            else:
-                st.error("Error: las dimensiones de radiación y energía no coinciden.")
+            # Graficar potencia instantánea
+            st.subheader("⚡ Potencia instantánea estimada (W)")
+            st.line_chart(pd.DataFrame({"Potencia (W)": potencia_w}))
 
     else:
         st.warning("🔍 Esperando que se carguen datos válidos con al menos 24 valores.")
