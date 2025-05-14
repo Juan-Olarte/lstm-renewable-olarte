@@ -175,12 +175,16 @@ with tab1:
 
             if len(potencia_inst) == len(energia_wh):
                 resultados_df = pd.DataFrame({
-                    "Potencia instantánea (W)": potencia_inst,
-                    #"Energía generada (Wh)": energia_wh
+                    "Potencia instantánea (W)": potencia_inst
+                })
+                resultados2_df = pd.DataFrame({
+                    "Energía generada (Wh)": energia_wh
                 })
 
-                st.subheader("Potencia instantánea y energía estimada para un panel de 1m² (27% eficiencia)")
+                st.subheader("Potencia instantánea estimada para un panel de 1m² (27% eficiencia)")
                 st.line_chart(resultados_df)
+                st.subheader("Energía estimada para un panel de 1m² (27% eficiencia)")
+                st.line_chart(resultados2_df)
             else:
                 st.error("Error: las dimensiones de radiación y energía no coinciden.")
 
