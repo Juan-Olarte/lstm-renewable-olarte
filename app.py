@@ -54,34 +54,6 @@ def load_data(url):
 # Titulo de pestaña
 st.set_page_config(page_title='Predicción Energías Renovables', layout='centered', page_icon="⚡")
 # Interfaz
-#footer
-footer="""<style>
-a:link , a:visited{
-color: blue;
-background-color: transparent;
-text-decoration: underline;
-}
-
-a:hover,  a:active {
-color: red;
-background-color: transparent;
-text-decoration: underline;
-}
-
-.footer {
-left: 0;
-bottom: 0;
-width: 100%;
-background-color: #ff9e9e;
-color: black;
-text-align: center;
-}
-</style>
-<div class="footer">
-<p>UFPS, 2025. Versión 1.2</p>
-</div>
-"""
-st.markdown(footer,unsafe_allow_html=True)
 # Cabecera mejorada # MOD
 st.markdown(
     "<h1 style='text-align: center; color: #0078D4;'>🔋 Predicción de Energías Renovables con IA</h1>",
@@ -263,7 +235,7 @@ with tab2:
             "*Juan David Olarte Pabón, Deyson Iván Llanes Suárez, Cristian David Alvarado Hernández, Angie Vanesa Montejo Montejo*"
         )
     st.markdown("Somos estudiantes de octavo semestre de la Universidad Francisco de Paula Santander, pertenecemos al programa de ingeniería electrónica y estamos comprometidos con el futuro renovable de nuestro país")
-    st.markdown("A su vez, contamos con el asesoramiento del MSc. IE. Darwin Orlando Cardozo")
+    st.markdown("A su vez, contamos con el asesoramiento, apoyo y guia del **MSc. IE. Darwin Orlando Cardozo**")
     st.subheader("Contacto")
     st.markdown("juanolartepabon@gmail.com")
     st.markdown("+57 322-2735117")
