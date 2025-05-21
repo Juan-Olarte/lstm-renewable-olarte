@@ -52,12 +52,8 @@ def load_data(url):
 
 
 # Titulo de pestaña
-st.set_page_config(page_title='Predicción Energías Renovables', layout='wide', page_icon="⚡")
+st.set_page_config(page_title='Predicción Energías Renovables', layout='centered', page_icon="⚡", base='light')
 # Interfaz
-st.set_page_config(
-    page_title="App Compacta",
-    layout="centered"
-)
 # Cabecera mejorada # MOD
 st.markdown(
     "<h1 style='text-align: center; color: #0078D4;'>🔋 Predicción de Energías Renovables con IA</h1>",
