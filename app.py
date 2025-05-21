@@ -237,6 +237,7 @@ with tab2:
             "Cristian David Alvarado Hernández - Desarrollador"
             "Angie Vanesa Montejo Montejo - Desarrolladora"
         )
+    st.markdown("Somos estudiantes de octavo semestre de la Universidad Francisco de Paula Santander, pertenecemos al programa de ingeniería electrónica y estamos comprometidos con el futuro renovable de nuestro país")
     
 
 #--------------------------------------------------------
