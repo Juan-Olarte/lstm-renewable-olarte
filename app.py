@@ -229,7 +229,15 @@ with tab1:
 #--------------------------------------------------------
 
 with tab2:
-    st.write("PLACEHOLDER")
+    st.subheader("Nuestro Equipo")
+    st.image("imagenes/team.jpeg")
+    st.markdown(
+            "Juan David Olarte Pabón - Desarrollador Líder"\
+            "Deyson Iván Llanes Suárez - Desarrollador" \
+            "Cristian David Alvarado Hernández - Desarrollador"\
+            "Angie Vanesa Montejo Montejo - Desarrolladora"
+        )
+    
 
 #--------------------------------------------------------
 #  PESTAÑA 3 -- AYUDA
