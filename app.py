@@ -52,7 +52,7 @@ def load_data(url):
 
 
 # Titulo de pestaña
-st.set_page_config(page_title='Predicción Energías Renovables', layout='centered', page_icon="⚡", base='light')
+st.set_page_config(page_title='Predicción Energías Renovables', layout='centered', page_icon="⚡")
 # Interfaz
 # Cabecera mejorada # MOD
 st.markdown(
