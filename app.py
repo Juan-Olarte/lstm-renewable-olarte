@@ -69,11 +69,10 @@ text-decoration: underline;
 }
 
 .footer {
-position: fixed;
 left: 0;
 bottom: 0;
 width: 100%;
-background-color: #f23a3a;
+background-color: #ff9e9e;
 color: black;
 text-align: center;
 }
