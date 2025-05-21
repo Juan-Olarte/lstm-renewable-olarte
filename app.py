@@ -239,7 +239,7 @@ with tab2:
     st.subheader("Contacto")
     st.markdown("juanolartepabon@gmail.com")
     st.markdown("+57 322-2735117")
-    st.markdown("UFPS 2025, Versión 1.2")
+    st.markdown("*UFPS 2025, Versión 1.2*")
 
 
 #--------------------------------------------------------
