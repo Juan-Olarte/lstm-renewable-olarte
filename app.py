@@ -233,8 +233,14 @@ with tab2:
     st.image("imagenes/team.jpeg")
     st.markdown(
             "Juan David Olarte Pabón - Desarrollador Líder"
+        )
+    st.markdown(
             "Deyson Iván Llanes Suárez - Desarrollador" 
+        )
+    st.markdown(
             "Cristian David Alvarado Hernández - Desarrollador"
+        )
+    st.markdown(
             "Angie Vanesa Montejo Montejo - Desarrolladora"
         )
     st.markdown("Somos estudiantes de octavo semestre de la Universidad Francisco de Paula Santander, pertenecemos al programa de ingeniería electrónica y estamos comprometidos con el futuro renovable de nuestro país")
