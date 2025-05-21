@@ -232,9 +232,9 @@ with tab2:
     st.subheader("Nuestro Equipo")
     st.image("imagenes/team.jpeg")
     st.markdown(
-            "Juan David Olarte Pabón - Desarrollador Líder"\
-            "Deyson Iván Llanes Suárez - Desarrollador" \
-            "Cristian David Alvarado Hernández - Desarrollador"\
+            "Juan David Olarte Pabón - Desarrollador Líder"
+            "Deyson Iván Llanes Suárez - Desarrollador" 
+            "Cristian David Alvarado Hernández - Desarrollador"
             "Angie Vanesa Montejo Montejo - Desarrolladora"
         )
     
